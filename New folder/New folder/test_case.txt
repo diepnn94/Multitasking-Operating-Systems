@@ -1,0 +1,16 @@
+echo hello world
+ls
+ls -l
+ls -l | wc
+cat < test1.txt
+cat < test1.txt | grep people | wc
+cat test1.txt | grep the
+ls -l | sort | more | grep c | wc
+echo $USER
+echo $HOME
+./helloworld
+./helloworld | wc 
+echo hello world # do not print this
+echo helloworld # ls -l 
+echo hello #no space with hashtag
+./nsh input_file.txt

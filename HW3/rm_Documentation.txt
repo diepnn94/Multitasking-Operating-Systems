@@ -1,0 +1,68 @@
+
+Design Decision:
+	I choose to create a single global TRASH because it is more convinient/faster to acquire information about the TRASH directory when all the files/directories are sent to the same place. In addition, it is easier to locate and unremove file(s), list the file(s) in TRASH, gather the disk space TRASK is currently holding and delete all files in TRASK. The only inconvinience I have with this design approach is the when unrm is called, it is difficult to send the file back to the place it was originally in so when unrm is called, I choose to send the file(s) back to the directory that unrm was called in (assuming that is where the user wants the file(s) to be recovered back in).
+
+	This approach is better than creating local TRASH in each directory because creating local TRASH is going to be very slow and inconvinent to keep track of. In addition, when lsrm, durm, trash are called, the program needs to loop through all the local trash to gather information; yet, if we use a single global TRASH, it would save a lot of time and ensure high accuracy (since all the files are in the same place).
+
+srm, unrm, durm, lsrm, trash
+
+Name: 
+	srm - moves file(s) or directory(s) to TRASH directory, if TRASH does not exist, creates TRASH in user's home directory
+
+Synopsis:
+	srm [OPTION] ... [FILE]...
+	
+Description:
+	Moves file(s) from current directory (or on a path) to TRASH
+	If TRASH does not exist, properly creates one in the user's home directory
+	If options are passed in, srm will behave like rm -rI
+	If File/Directory is invalid, an error message will be raised
+	If the file to be removed shared the same name as the file in TRASH, the old file will be overrided with new file
+
+Name: 
+	unrm - moves file(s) or directory(s) from TRASH to the directory unrm was called on, if TRASH does not exist, creates TRASH in user's home directory
+
+Synopsis:
+	unrm [FILE]...
+
+Description:
+	Moves file(s) or directory(s) from TRASH to the directory that unrm was called on
+	If TRASH does not exist, properly creates one in the user's home directory
+	unrm takes in arguments, which are files and directories
+	unrm does not take in any options so extra options provided will raise error message
+	If File/Directory is invalid (does not exist TRASK), an error message will be raised
+
+Name: 
+	durm - displays the total disk space will be recovered when command trash is executed, if TRASH does not exist, creates TRASH in user's home 	directory
+	
+Synopsis:
+	durm
+
+Description:
+	durm displays the total disk space that TRASH is currently holding (or how much space will be recovered after executing command trash)
+	If TRASH does not exist, properly creates one in the user's home directory
+	durm does not takes in any argument so extra argument passed in will raise error message
+
+Name: 
+	lsrm - lists the files in TRASH directory, if TRASH does not exist, creates TRASH in user's home directory
+
+Synopsis:
+	lsrm
+
+Description:
+	lsrm lists the files that are currently in the TRASH directory
+	If TRASH does not exist, properly creates one in the user's home directory
+	lsrm does not take in any argument, so extra argument passed in will raise error message
+
+
+Name: 
+	trash - removes all the file currently in TRASH, if TRASH does not exist, creates TRASH in user's home directory
+
+Synopsis:
+	trash
+
+Description:
+	trash removes all the files currently in TRASH directory
+	If TRASH does not exist, properly creates one in the user's home directory
+	trash does not take in any argument, so extra argument passed in will raise error message
+

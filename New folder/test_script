@@ -1,0 +1,210 @@
+#!/bin/bash
+
+green=$(tput setaf 2)
+yellow=$(tput setaf 3)
+default=$(tput sgr0)
+red=$(tput setaf 1)
+blue=$(tput setaf 6)
+
+# gcc "main-parse.c" "parse.c"
+
+
+printf "\n${blue}TESTING FROM test_case.txt comparing nsh with bash${default}\n"
+cat "test_case.txt" | while read line
+do
+	
+	out=$(echo $line |./nsh  | sed 's/? //')
+	v_out=$(eval $line)
+	if [ "$out" == "$v_out" ];
+	then 
+		printf "${yellow}$line${default}\n"
+		printf "${green}CORRECT${default}\n"
+	else
+		echo $line
+		printf "${red}INCORRECT${default}\n"
+	fi
+	
+done 
+
+rm -rf test1_out.txt test2_out.txt 
+##test for output redirection, see if test1_out.txt is created
+##then check if the content is the same (any data is actually written to it)
+
+printf "\n${blue}test for output redirection, see if test1_out.txt is created and content matched${default}\n"
+line1="cat<test1.txt | grep is | wc > test1_out.txt"
+line2="cat<test1.txt | grep is | wc > test2_out.txt"
+
+$( echo $line1 | ./nsh | sed 's/? \|?//' | sed 's/? $//' )
+$( eval $line2)
+
+if [ -e test1_out.txt ]; 
+then
+	out=$(cat test1_out.txt)
+	v_out=$(cat test2_out.txt)
+	if [ "$out" == "$v_out" ]; 
+	then 
+		#echo $line1
+		printf "${yellow}$line1${default}\n"
+		printf "${yellow}test1_out.txt is created and the content matched with bash${default}\n"
+		printf "${green}CORRECT${default}\n"
+	else
+		# echo $line1
+		printf "${yellow}$line1${default}\n"
+		printf "${red}INCORRECT${default}\n"
+	fi
+else
+	echo $line1
+	printf "${red}INCORRECT${default}\n"
+fi
+##cleaning up files
+line1="rm -rf test1_out.txt test2_out.txt"
+$( echo $line1 | ./nsh | sed 's/? \|?//' | sed 's/? $//' )
+
+if [ -e test1_out.txt ] && [ -e test2_out.txt ]; 
+then
+	printf "${yellow}$line1${default}\n"
+	printf "${yellow}deleting test1_out.txt test2_out.txt${default}\n"
+	printf "${red}INCORRECT${default}\n"
+else
+	printf "${yellow}$line1${default}\n"
+	printf "${green}CORRECT${default}\n"
+fi
+
+##redirect stdout to test1_out.txt and later append into it
+##first check if test1_out.txt is created then append something into it and check if the content is the same
+printf "\n${blue}redirect stdout to test1_out.txt and later append into it then check if the content match${default}\n"
+
+line1="cat<test1.txt | grep the | wc > test1_out.txt"
+line2="cat<test1.txt | grep the | wc > test2_out.txt"
+line3="cat<test1.txt | grep the | wc >> test1_out.txt"
+line4="cat<test1.txt | grep the | wc >> test2_out.txt"
+
+$( echo $line1 | ./nsh | sed 's/? \|?//' | sed 's/? $//' )
+$( echo $line2 | ./nsh | sed 's/? \|?//' | sed 's/? $//' )
+$( eval $line3)
+$( eval $line4)
+
+if [ -e test1_out.txt ]; then
+	out=$(cat test1_out.txt)
+	v_out=$(cat test2_out.txt)
+	if [ "$out" == "$v_out" ]; 
+	then 
+		# echo $line1
+		# echo $line2
+		printf "${yellow}$line1${default}\n"
+		printf "${yellow}test1_out.txt is created the content matched with bash${default}\n"
+		printf "${yellow}$line3${default}\n"
+		printf "${yellow}test1_out.txt is appended with the same content and the content matched with bash${default}\n"
+		printf "${green}CORRECT${default}\n"
+	else
+		# echo $line1
+		# echo $line2
+		printf "${yellow}$line1${default}\n"
+		printf "${yellow}$line3${default}\n"
+		printf "${red}INCORRECT${default}\n"
+	fi
+else
+	# echo $line1
+	# echo $line2
+	printf "${yellow}$line1${default}\n"
+	printf "${yellow}$line3${default}\n"
+	printf "${red}INCORRECT${default}\n"
+fi
+
+
+##cleaning up files
+line1="rm -rf test1_out.txt test2_out.txt"
+$( echo $line1 | ./nsh | sed 's/? \|?//' | sed 's/? $//' )
+
+if [ -e test1_out.txt ] && [ -e test2_out.txt ]; 
+then
+	printf "${yellow}$line1${default}\n"
+	printf "${yellow}deleting test1_out.txt test2_out.txt${default}\n"
+	printf "${red}INCORRECT${default}\n"
+else
+	printf "${yellow}$line1${default}\n"
+	printf "${green}CORRECT${default}\n"
+fi
+ 
+##append to non-existing files
+line1="cat<test1.txt | grep people | wc >> test1_out.txt"
+line2="cat<test1.txt | grep people | wc >> test2_out.txt"
+printf "\n${blue}append to non-existing file (test1_out.txt) then check if the content match${default}\n"
+$( echo $line1 | ./nsh | sed 's/? \|?//' | sed 's/? $//' )
+$( eval $line2)
+
+if [ -e test1_out.txt ]; 
+then
+	out=$(cat test1_out.txt)
+	v_out=$(cat test2_out.txt)
+	if [ "$out" == "$v_out" ]; 
+	then 
+		#echo $line1
+		printf "${yellow}$line1${default}\n"
+		printf "${yellow}test1_out.txt is created on append mode and content match${default}\n"
+		printf "${green}CORRECT${default}\n"
+	else
+		# echo $line1
+		printf "${yellow}$line1${default}\n"
+		printf "${red}INCORRECT${default}\n"
+	fi
+else
+	echo $line1
+	printf "${red}INCORRECT${default}\n"
+fi
+
+##cleaning up files
+line1="rm -rf test1_out.txt test2_out.txt"
+$( echo $line1 | ./nsh | sed 's/? \|?//' | sed 's/? $//' )
+
+if [ -e test1_out.txt ] && [ -e test2_out.txt ]; 
+then
+	printf "${yellow}$line1${default}\n"
+	printf "${yellow}deleting test1_out.txt test2_out.txt${default}\n"
+	printf "${red}INCORRECT${default}\n"
+else
+	printf "${yellow}$line1${default}\n"
+	printf "${green}CORRECT${default}\n"
+fi
+
+##running with an executable file and output to test1_out.txt
+
+line1="./helloworld | wc > test1_out.txt"
+line2="./helloworld | wc > test2_out.txt"
+printf "\n${blue}running with an executable file (helloworld*) and output to test1_out.txt${default}\n"
+$( echo $line1 | ./nsh | sed 's/? \|?//' | sed 's/? $//' )
+$( eval $line2)
+
+if [ -e test1_out.txt ]; 
+then
+	out=$(cat test1_out.txt)
+	v_out=$(cat test2_out.txt)
+	if [ "$out" == "$v_out" ]; 
+	then 
+		#echo $line1
+		printf "${yellow}$line1${default}\n"
+		printf "${yellow}test1_out.txt is created and content match with bash output${default}\n"
+		printf "${green}CORRECT${default}\n"
+	else
+		# echo $line1
+		printf "${yellow}$line1${default}\n"
+		printf "${red}INCORRECT${default}\n"
+	fi
+else
+	echo $line1
+	printf "${red}INCORRECT${default}\n"
+fi
+
+##cleaning up files
+line1="rm -rf test1_out.txt test2_out.txt"
+$( echo $line1 | ./nsh | sed 's/? \|?//' | sed 's/? $//' )
+
+if [ -e test1_out.txt ] && [ -e test2_out.txt ]; 
+then
+	printf "${yellow}$line1${default}\n"
+	printf "${yellow}deleting test1_out.txt test2_out.txt${default}\n"
+	printf "${red}INCORRECT${default}\n"
+else
+	printf "${yellow}$line1${default}\n"
+	printf "${green}CORRECT${default}\n"
+fi	

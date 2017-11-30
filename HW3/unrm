@@ -1,0 +1,26 @@
+#!/bin/bash
+
+TRASHCAN=$HOME/TRASH
+
+if [ ! -d $TRASHCAN ];
+then 
+	echo making trash
+	mkdir -p $TRASHCAN
+	echo "TRASH=$TRASHCAN" >> ~/.bash_profile
+	echo "export TRASH" >> ~/.bash_profile
+	source ~/.bash_profile
+fi
+
+current=$(pwd)
+cd $TRASH
+for i in $@
+	do
+		if [ -e $i ];
+		then
+			mv $i $current
+		
+		else
+			echo unrm: The file entered is invalid $i. >&2
+		fi
+	done
+

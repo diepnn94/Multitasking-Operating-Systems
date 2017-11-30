@@ -1,0 +1,92 @@
+Ngoc Nguyen
+ID#72114439
+
+MakeFile:
+	1. run "make" to compile nsh.c and parse.c then link nsh.o and parse.o to make an executable nsh
+	2. run "./test_script" to test all the test cases
+	3. run "make clean" to delete nsh.o parse.o and nsh
+
+
+	**for my environmental variables handling, I can only sucessfuly retrieve the variable that is already setted in the env
+	**I can set the environment variable using putenv in nsh,
+	**but I can't retrieve it because after the process die the variable dies with the child
+	**so for environmental extension area I can only retrieve but not set
+
+	**My nsh does handle erro handling, such as "cat < not_exist_file.txt" or "cat not_exist_file.txt will print out 
+	**"No such file or directory" and continue with the nsh script instead of terminating; 
+	**through this is not show in the test script because I can't
+	**capture the error message from my nsh and compare it with bash stderr output.
+s
+
+
+My test script is structured in two parts, first is reading from test_case.txt and checking it directly with bash stdout,
+and second is using bourne shell in the script to check if a file is actually created, deleted,
+and if the content of the created file is the same as bash output. In my test_script, I check for >, >>, rm, cd.
+
+Part One: nsh stdout with bash stdout
+
+echo hello world 			//regular printing
+ls					//one argument with no command
+ls -l 					//bash command
+ls -l | wc 				//one pipe
+cat < test1.txt 			//input redirection, read from a file
+cat < test1.txt | grep people | wc 	// read from a file and two pipe
+cat test1.txt | grep the 		//bash command and one pipe
+ls -l | sort | more | grep c | wc 	//multiple pipes
+echo $USER 				//getting environemental variable
+echo $HOME 				//getting environemental variable
+./helloworld 				//execute an executable file
+./helloworld | wc 			//execute an executable file with one pipe
+echo hello world # don't print		//comment will not get print
+echo hello world # ls -l		//comment will not get print
+echo hello #no space			//comment without space
+./nsh input_file.txt			//reading commands on a file instead of stdin
+
+Part Two: using bourne shell to check if a file is created, removed, and same data content upon created
+
+1. check if "cat<test1.txt | grep is | wc > test1_out.txt" creates test1_out.txt and the content is the same as bash output
+	_use nsh to execute the line above and output to test1_out.txt
+	_use bash to execute the line above but output to test2_out.txt
+	_check if test1_out.txt exist (created)
+	_check if the content of test1_out.txt is the same as test2_out.txt
+
+2. remove test1_out.txt and test2_out.txt and check if they don't exist
+
+3. check if "cat<test1.txt | grep the | wc > test1_out.txt" creates test1_out.txt and
+   check if "cat<test1.txt | grep the | wc >> test1_out.txt" append the same content again to test1_out.txt and
+   check if the content of test1_out.txt is the same as bash output
+	_use nsh to execute the first line above and output to test1_out.txt
+	_check if test1_out.txt exist
+	_use nsh to execute the second line above and output to test1_out.txt
+	_use bash to execute the 2 lines above and output to test2_out.txt
+	_check if the content of test1_out.txt is the as test2_out.txt
+
+**2. remove test1_out.txt and test2_out.txt and check if they don't exist
+
+4. check if "cat<test1.txt | grep people | wc >> test1_out.txt" appends to non-existing file
+	_use nsh to execute the line above and output to test1_out.txt
+	_use bash to execute the line above and output to test2_out.txt
+	_check if test1_out.txt is created
+	_check if the content of test1_out.txt is the same as test2_out.txt
+
+**2. remove test1_out.txt and test2_out.txt and check if they don't exist
+
+5. running nsh with an executable file ("./helloworld | wc > test1_out.txt" ) and output to test1_out.txt
+	_use nsh to execute the command above and output to test1_out.txt
+	_use bash to execute the command above and output to test2_out.txt
+	_check if test1_out.txt is created
+	_check if the content of test1_out.txt is the same as test2_out.txt
+
+**2. remove test1_out.txt and test2_out.txt and check if they don't exist
+
+6. testing cd "cd testing\nls -l" and output it to test1_out.txt
+	_use nsh to execute the command above and store the output to test1_out.txt; cd into the directory and ls -l; store the output
+	_use bash to execute the command "ls -l testing" and store the output to test2_out.txt
+	_check if test1_out.txt is the same as test2_out.txt
+
+**2. remove test1_out.txt and test2_out.txt and check if they don't exist
+
+7. testing cd with environmental variable "cd $HOME\nls -l" and output it to test1_out.txt
+	_use nsh to execute the command above and store the output to test1_out.txt
+	_use bash to execute the command "ls -l $HOME" and store the output to test2_out.txt
+	_check if test1_out.tt is the same as test2_out.txt

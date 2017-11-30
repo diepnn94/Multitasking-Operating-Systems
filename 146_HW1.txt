@@ -1,0 +1,58 @@
+﻿Ngoc Nguyen
+ID# 72114439
+
+
+1) What is your home directory?  How did you find out (commands used)?
+My home directory is /home/diepnn. I found out by typing in the command “pwd”
+
+2) What is your UID?  How did you find out (commands used)?
+My UID is 10118(diepnn). I found out by typing in “id”
+
+3) To what group(s) do you belong?  How did you find out?
+I belong in group 1001(ugrad). I found out by typing in “id”
+
+4) What is your "kill" character used for?
+The kill character is used to erase an entire line, the command is “Ctrl+u”
+
+5) If you remove execute permission for yourself from a directory (see
+  chmod(1)), are you still allowed to create files in that directory?
+  Can you cd into it?  Can you "ls" it?  Can you "ls -l" it?
+I cannot create file in that directory, it raised “permission denied”. I cannot cd into it, it raised “permission denied”. I cannot ls the directory, it raised “permission denied”. I cannot ls -l the directory, it raised “permission denied”.        
+
+
+6) If you make a hard link to a file, and then remove the original file,
+  are the contents of the file actually removed?  Why?  How about if you
+  make a symbolic link?  Why?
+        Hard Link:
+No, if we remove the original file, the contents of the file will not be removed because hard link points to the actual data file instead to each other; therefore, when the original file is removed, its link to the actual data file is removed but we can still access the data file from the hard link we made so the contents of the file is not actually removed.
+Symbolic Link:
+Yes, if we remove the original file, the contents of the file will actually be removed because symbolic link point to each other; therefore, when the original file is removed, the link is broken, therefore, our symbolic link will be broken (since it points to the original file and the original file is gone) so the contents of the file will actually be removed. 
+
+7) Are you allowed to "mv" a directory?  Are you allowed to "cp" a
+  directory?  If so, how?
+Yes, I am allowed to mv a directory. 
+Yes, I am allowed to cp a directory.
+I used the command “mv /source/ /destination/” and “cp -r /source/ /destination/” (Ex. /home/diepnn/testing/ /home/diepnn/backup)
+
+8) How many mounted file systems are there on odin.ics.uci.edu?
+  How did you find out? (Commands)
+There are 62 file systems on odin.ics.uci.edu.
+I found out by using the command “findmnt -n -l | wc -l”
+
+9) Using only "ls" (and maybe "grep"), can you find out the name of your
+  login terminal?  How?  (Hint: cheat by first typing "who am i".  Look
+  also at the -L option of "ls".)
+Yes, I use the command “ls -l /dev/pts/* | grep $USER” and the result I got was 
+“crw--w---- 1 diepnn   tty  136, 44 Apr 10 14:16 /dev/pts/44”
+
+10) In slide 8 from lecture #1, assume binary 00000000 represents
+   register D0.  Then the address translation from "FFDC" to binary
+   is incorrect.  Correct it.  What is the machine language (binary)
+   representation of the MOVE instruction? What about MUL?  (Before
+   you ask: yes, different instructions can take up different numbers
+   of bytes/words.)
+
+
+        FFDC = 1111 1111 1101 1100
+        MOVE = 1100101
+        MUL = 1010001 01011101

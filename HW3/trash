@@ -1,0 +1,21 @@
+#!/bin/bash
+
+
+TRASHCAN=$HOME/TRASH
+
+if [ ! -d $TRASHCAN ];
+then 
+	echo making trash
+	mkdir -p $TRASHCAN
+	echo "TRASH=$TRASHCAN" >> ~/.bash_profile
+	echo "export TRASH" >> ~/.bash_profile
+	source ~/.bash_profile
+fi
+
+if [ $# -eq 0 ];
+then 
+	cd $TRASH
+	rm -rf *
+else
+	echo durm: The number of argument is wrong: $#. >&2
+fi

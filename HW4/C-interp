@@ -1,0 +1,36 @@
+#!/bin/bash
+
+#temporary=$HOME/temp/DDD
+temporary=/tmp/diepnn
+
+if [ ! -d $temporary ];
+then
+	echo Making temp/DDD: $temporary
+	mkdir -p $temporary
+fi
+
+function cleanup(){
+	echo Performing cleanup: $temporary
+	rm -rf $temporary
+	exit
+}
+
+trap cleanup 0 1 2 3 15
+
+constructed=$0".c"
+
+g++ -o C-interpTemporary $constructed
+
+mv C-interpTemporary $temporary
+mv "$@" $temporary
+
+cd $temporary
+
+./C-interpTemporary "$@"
+
+
+
+
+
+
+

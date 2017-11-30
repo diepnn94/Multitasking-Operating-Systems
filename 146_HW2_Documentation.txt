@@ -1,0 +1,66 @@
+Ngoc Nguyen
+ID# 72114439
+
+1.a) cat x y > y.
+	When executing this, the content of y will be overide with the content of x since cat x > y is executing first, then cat y > y happens, which 			basically will do nothing because we are overiding y with y.
+
+1.b) cat x >> x
+	When executing this, if no error message was raised, the content of x will get append to x.
+
+2. cx 
+	Description: cx loops through the list of passed in arguments and perform chmod +x on each of the valid file.
+
+	In addition, for arguments that are not valid (does not exist), chmod will raise error, and cx will continue executing the rest of the valid 			argument.
+	
+	General Output: cx will not output anything, it will directly change the permission bit to x on each valid file.
+	Gereral Input: cx takes in a list of file.
+3. nf
+	Description: nf returns the number of files in the current directory (using ls and wc).
+	
+	In addition, this script does not need any argument so extra argument passed in will be ignored.
+
+	General Output: nf will output the total number of files in the directory.
+	General Input: nf does not require any input.
+
+4. lss
+	Description: lss returns a sorted list of file in the current directory by decreasing order of bytes.
+	
+	In addition, lss does not take in any argument, so extra argument will raise "No Argument Needed" message.
+
+	General Output: lss will output all files in the current directory by decreasing order of bytes.
+	General Input: No argument
+
+5. whoson
+	Description: whoson returns a sorted list of ugrad users who are currently logged.
+
+	In addition, this script does not need any argument so extra argument passed in will be ignored.
+	
+	General Output: whoson will output ugrad users who are currently logged.
+	General Input: whoson does not require any input.
+
+6. howmany
+	Description: whoson returns the number of ugrad users who are currently logged.
+	
+	In addition, does not need any arugment so extra argument passed in will be ignored.
+	
+	General Output: howmany will output number of current ugrad logged.
+	General Input: howmany does no require any input
+
+7. valid
+	Description: valid return yes if the argument is a valid shell variable name, return no if it is not.
+	
+	General Description: an argument is valid if it begins with alphabetical characters, either lower case or upper case, or underscore.
+	The body of the argument must only contain alphabetical characters, both upper or lower cases, underscore or integer.
+	
+	In addition, valid only takes in one argument, so extra argument passed in will be ignore. Output will only correspond to the first argument.
+	
+	General Output: valid will output yes if the argument is a valid shell variable name, else output no.
+	General Input: valid takes in one argument.
+
+8. prargs
+	prargs prints out a numbered list of the arguments in the order they were passed in.
+
+	In addition, arguments contained by quotes will be treated as one argument and will not be separated by whitespace.
+	
+	General Output: prargs outputs a numbered list of argument in the order they were passed in.
+	General Input: prargs takes in a list of arguments.

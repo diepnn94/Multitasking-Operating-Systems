@@ -1,0 +1,5 @@
+echo hello
+ls -l -S
+echo THIS IS A TEST
+
+

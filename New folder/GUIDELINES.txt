@@ -1,0 +1,19 @@
+Ngoc Nguyen
+
+MakeFile:
+	1. run "make" to compile nsh.c and parse.c then link nsh.o and parse.o to make an executable nsh
+	2. run "./test_script" to test all the test cases
+	3. run "make clean" to delete nsh.o parse.o and nsh
+
+For my nsh I implemented:
+	_multiple pipes
+	_environmental variables
+	_input redirection such as <, >, >>
+	**for my environmental variables handling, I can only sucessfuly retrieve the variable that is already setted in the env
+	**I can set the environment variable using putenv in nsh,
+	** but I can't retrieve it because after the process die the variable dies with the child
+
+
+My test script is structured in two ways, first is checking directly with bash stdout,
+and second is using bourne shell in the script to check if a file is actually created, deleted,
+and if the content of the created file is the same as bash output.

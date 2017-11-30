@@ -1,0 +1,23 @@
+#!/bin/bash
+
+TRASHCAN=$HOME/TRASH
+
+if [ ! -d $TRASHCAN ];
+then 
+	echo making trash
+	mkdir -p $TRASHCAN
+	echo "TRASH=$TRASHCAN" >> ~/.bash_profile
+	echo "export TRASH" >> ~/.bash_profile
+	source ~/.bash_profile
+fi
+
+for i in $@
+	do
+		if [ -f $i ] || [ -d $i ];
+		then
+			mv $i $TRASH
+			
+		else
+			echo srm: The file $i is not a valid file. >&2
+		fi
+	done
